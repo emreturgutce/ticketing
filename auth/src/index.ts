@@ -1,6 +1,7 @@
 import express from 'express'
 import 'express-async-errors'
 import mongoose from 'mongoose'
+import cookieSession from 'cookie-session'
 import { currentUserRouter } from './routes/current-user'
 import { signinRouter } from './routes/signin'
 import { signupRouter } from './routes/signup'
@@ -18,7 +19,9 @@ mongoose
   .catch(err => console.log(`Error occurred connecting MongoDB: ${err}`))
 
 const app = express()
+app.set('trust proxy', true)
 app.use(express.json())
+app.use(cookieSession({ signed: false, secure: true }))
 
 app.use(signupRouter)
 app.use(currentUserRouter)

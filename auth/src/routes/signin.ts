@@ -29,7 +29,6 @@ router.post(
       password
     )
 
-    console.log('TEST')
     if (!passwordsMatch) throw new BadRequestError('poor credentials')
 
     if (!process.env.JWT_KEY) throw new Error('JWT_KEY not defined')

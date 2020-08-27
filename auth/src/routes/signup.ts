@@ -29,7 +29,12 @@ router.post(
 
     const user = await User.build({ email, password }).save()
 
-    const userJwt = jwt.sign({ id: user.id, email: user.email }, 'ASDF')
+    if (!process.env.JWT_KEY) throw new Error('JWT_KEY not defined')
+
+    const userJwt = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_KEY
+    )
 
     req.session = { jwt: userJwt }
 

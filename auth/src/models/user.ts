@@ -1,6 +1,15 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Model, Document } from 'mongoose'
 
 interface UserAttrs {
+  email: string
+  password: string
+}
+
+interface UserModel extends Model<UserDoc> {
+  build(attrs: UserAttrs): UserDoc
+}
+
+interface UserDoc extends Document {
   email: string
   password: string
 }
@@ -16,8 +25,8 @@ const userSchema = new Schema({
   },
 })
 
-const User = model('User', userSchema)
+userSchema.statics.build = (attrs: UserAttrs) => new User(attrs)
 
-const buildUser = (attrs: UserAttrs) => new User(attrs)
+const User = model<UserDoc, UserModel>('User', userSchema)
 
-export { User, buildUser }
+export { User }

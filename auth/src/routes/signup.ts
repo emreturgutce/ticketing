@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { body, validationResult } from 'express-validator'
+import jwt from 'jsonwebtoken'
 import { RequestValidationError } from '../errors/request-validation-error'
 import { User } from '../models/user'
 import { BadRequestError } from '../errors/bad-request-error'
@@ -27,6 +28,10 @@ router.post(
     if (existingUser) throw new BadRequestError('Email in use')
 
     const user = await User.build({ email, password }).save()
+
+    const userJwt = jwt.sign({ id: user.id, email: user.email }, 'ASDF')
+
+    req.session = { jwt: userJwt }
 
     res.status(201).json({ message: 'User created', data: user })
   }

@@ -2,16 +2,17 @@ import axios from 'axios'
 
 export default ({ req }) => {
   if (typeof window === 'undefined') {
-    // When on the Server
+    // We are on the server
+
     return axios.create({
       baseURL:
-        'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
+        'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
       headers: req.headers,
     })
   } else {
-    // When on the Browser
+    // We must be on the browser
     return axios.create({
-      baseURL: '/',
+      baseUrl: '/',
     })
   }
 }

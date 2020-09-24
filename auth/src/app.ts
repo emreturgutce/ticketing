@@ -5,8 +5,7 @@ import { currentUserRouter } from './routes/current-user'
 import { signinRouter } from './routes/signin'
 import { signupRouter } from './routes/signup'
 import { signoutRouter } from './routes/signout'
-import { errorHandler } from './middleware/error-handler'
-import { notFound } from './middleware/not-found'
+import { errorHandler, notFound } from '@et-ticketing/common'
 
 const app = express()
 app.set('trust proxy', true)

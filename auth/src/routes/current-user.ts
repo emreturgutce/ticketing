@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { currentUser } from '../middleware/current-user'
+import { currentUser } from '@et-ticketing/common'
 
 const router = Router()
 

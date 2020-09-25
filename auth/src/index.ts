@@ -2,7 +2,7 @@ import { app } from './app'
 import mongoose from 'mongoose'
 
 mongoose
-  .connect('mongodb://auth-mongo-srv:27017/auth', {
+  .connect(process.env.MONGO_URI!, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

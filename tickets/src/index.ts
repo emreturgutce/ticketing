@@ -15,7 +15,7 @@ async function main() {
     process.on('SIGINT', () => natsWrapper.client.close())
     process.on('SIGTERM', () => natsWrapper.client.close())
   } catch (err) {
-    console.log('An error occurred connecting nats client')
+    console.error(err)
   }
 
   mongoose
@@ -25,7 +25,7 @@ async function main() {
       useCreateIndex: true,
     })
     .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log(`Error occurred connecting MongoDB: ${err}`))
+    .catch(err => console.error(err))
 
   app.listen(3000, () => console.log('Tickets Service running on port 3000'))
 }

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { body } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import {validateRequest, BadRequestError} from '@et-ticketing/common'
+import { validateRequest, BadRequestError } from '@et-ticketing/common'
 import { User } from '../models/user'
 import { Password } from '../services/password'
 

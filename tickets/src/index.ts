@@ -1,14 +1,22 @@
 import { app } from './app'
 import mongoose from 'mongoose'
 import { natsWrapper } from './nats-wrapper'
-import { randomBytes } from 'crypto'
 
 async function main() {
-  await natsWrapper.connect(
-    'ticketing',
-    randomBytes(4).toString('hex'),
-    'http://nats-srv:4222'
-  )
+  try {
+    await natsWrapper.connect('ticketing', 'asd', 'http://nats-srv:4222')
+
+    natsWrapper.client.on('close', () => {
+      console.log('NATS connection closed!')
+
+      process.exit()
+    })
+
+    process.on('SIGINT', () => natsWrapper.client.close())
+    process.on('SIGTERM', () => natsWrapper.client.close())
+  } catch (err) {
+    console.log('An error occurred connecting nats client')
+  }
 
   mongoose
     .connect(process.env.MONGO_URI!, {

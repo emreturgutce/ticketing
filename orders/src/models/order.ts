@@ -2,6 +2,8 @@ import mongoose, { Document, model, Model, Schema } from 'mongoose'
 import { OrderStatus } from '@et-ticketing/common'
 import { TicketDoc } from './ticket'
 
+export { OrderStatus }
+
 interface OrderAttrs {
   userId: string
   status: OrderStatus

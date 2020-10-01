@@ -36,7 +36,7 @@ router.delete(
 
     await order.save()
 
-    res.json(204).send({ order })
+    res.status(204).json({ order })
   }
 )
 

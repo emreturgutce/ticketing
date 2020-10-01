@@ -5,7 +5,7 @@ import {
   validateRequest,
 } from '@et-ticketing/common'
 import { Router, Request, Response } from 'express'
-import { body } from 'express-validator'
+import { param } from 'express-validator'
 import { Order } from '../models/order'
 import mongoose from 'mongoose'
 
@@ -15,7 +15,7 @@ router.get(
   '/api/orders/:orderId',
   requireAuth,
   [
-    body('orderId')
+    param('orderId')
       .not()
       .isEmpty()
       .custom((input: string) => mongoose.Types.ObjectId.isValid(input))

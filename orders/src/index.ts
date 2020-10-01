@@ -38,7 +38,7 @@ async function main() {
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error(err))
 
-  app.listen(3000, () => console.log('Tickets Service running on port 3000'))
+  app.listen(3000, () => console.log('Orders Service running on port 3000'))
 }
 
 main()

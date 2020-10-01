@@ -34,7 +34,7 @@ router.post(
     if (!ticket) throw new NotFoundError()
 
     // Making sure the ticket with the given id is not reserved
-    const isReserved = ticket.isReserved()
+    const isReserved = await ticket.isReserved()
 
     if (isReserved) throw new BadRequestError('Ticket is already reserved')
 

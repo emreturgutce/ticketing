@@ -1,6 +1,8 @@
 import { app } from './app'
 import mongoose from 'mongoose'
 import { natsWrapper } from './nats-wrapper'
+import { TicketCreatedListener } from './events/listeners/ticket-created-listener'
+import { TicketUpdatedListener } from './events/listeners/ticket-updated-listener'
 
 async function main() {
   if (!process.env.NATS_CLUSTER_ID)
@@ -28,6 +30,9 @@ async function main() {
   } catch (err) {
     console.error(err)
   }
+
+  new TicketCreatedListener(natsWrapper.client).listen()
+  new TicketUpdatedListener(natsWrapper.client).listen()
 
   mongoose
     .connect(process.env.MONGO_URI, {

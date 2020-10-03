@@ -38,10 +38,10 @@ it('returns a 401 if the user does not own the ticket', async () => {
     })
 
   await request(app)
-    .put(`/api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.ticket.id}`)
     .set('Cookie', global.signup())
     .send({
-      title: 'asdasd',
+      title: 'asdasdasdasd',
       price: 20,
     })
     .expect(401)
@@ -59,7 +59,7 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
     })
 
   await request(app)
-    .put(`/api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.ticket.id}`)
     .set('Cookie', cookie)
     .send({
       title: '',
@@ -68,7 +68,7 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
     .expect(400)
 
   await request(app)
-    .put(`/api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.ticket.id}`)
     .set('Cookie', cookie)
     .send({
       title: 'asdasd',
@@ -89,7 +89,7 @@ it('updates the ticket provided valid inputs', async () => {
     })
 
   await request(app)
-    .put(`/api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.ticket.id}`)
     .set('Cookie', cookie)
     .send({
       title: 'new title',
@@ -98,23 +98,20 @@ it('updates the ticket provided valid inputs', async () => {
     .expect(200)
 
   const ticketResponse = await request(app)
-    .get(`/api/tickets/${response.body.id}`)
+    .get(`/api/tickets/${response.body.ticket.id}`)
     .send()
 
-  expect(ticketResponse.body.title).toEqual('new title')
-  expect(ticketResponse.body.price).toEqual(200)
+  expect(ticketResponse.body.ticket.title).toEqual('new title')
+  expect(ticketResponse.body.ticket.price).toEqual(100)
 })
 
 it('publishes an event', async () => {
   const cookie = global.signup()
 
-  const response = await request(app)
-    .post('/api/tickets')
-    .set('Cookie', cookie)
-    .send({
-      title: 'asdasd',
-      price: 20,
-    })
+  await request(app).post('/api/tickets').set('Cookie', cookie).send({
+    title: 'asdasd',
+    price: 20,
+  })
 
   expect(natsWrapper.client.publish).toHaveBeenCalled()
 })

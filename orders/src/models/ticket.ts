@@ -17,6 +17,10 @@ export interface TicketDoc extends Document {
 
 interface TicketModel extends Model<TicketDoc> {
   build(attrs: TicketAttrs): TicketDoc
+  findByIdAndPreviousVersion(event: {
+    id: string
+    version: number
+  }): Promise<TicketDoc | null>
 }
 
 const ticketSchema = new Schema(
@@ -46,6 +50,15 @@ ticketSchema.plugin(updateIfCurrentPlugin)
 
 ticketSchema.statics.build = (attrs: TicketAttrs) =>
   new Ticket({ _id: attrs.id, ...attrs })
+ticketSchema.statics.findByIdAndPreviousVersion = (event: {
+  id: string
+  version: number
+}) => {
+  return Ticket.findOne({
+    _id: event.id,
+    version: event.version - 1,
+  })
+}
 
 ticketSchema.methods.isReserved = async function () {
   const existingOrder = await Order.findOne({

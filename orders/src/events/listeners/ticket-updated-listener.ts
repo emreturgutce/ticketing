@@ -8,8 +8,8 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   queueGroupName = queueGroupName
 
   async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
-    const ticket = await Ticket.findOne({
-      _id: data.id,
+    const ticket = await Ticket.findByIdAndPreviousVersion({
+      id: data.id,
       version: data.version - 1,
     })
 

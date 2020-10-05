@@ -12,12 +12,7 @@
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "./src/test/setup.ts"
-    ],
-    "globals": {
-      "ts-jest": {
-        "isolatedMmodules": true
-      }
-    }
+    ]
   },
   "keywords": [],
   "author": "",

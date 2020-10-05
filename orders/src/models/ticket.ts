@@ -1,6 +1,5 @@
 import { Document, Model, Schema, model } from 'mongoose'
 import { Order, OrderStatus } from './order'
-import { updateIfCurrentPlugin } from 'mongoose-update-if-current'
 
 interface TicketAttrs {
   id: string
@@ -46,10 +45,19 @@ const ticketSchema = new Schema(
 )
 
 ticketSchema.set('versionKey', 'version')
-ticketSchema.plugin(updateIfCurrentPlugin)
+
+ticketSchema.pre('save', function (done) {
+  // @ts-ignore
+  this.$where = {
+    version: this.get('version') - 1,
+  }
+
+  done()
+})
 
 ticketSchema.statics.build = (attrs: TicketAttrs) =>
   new Ticket({ _id: attrs.id, ...attrs })
+
 ticketSchema.statics.findByIdAndPreviousVersion = (event: {
   id: string
   version: number

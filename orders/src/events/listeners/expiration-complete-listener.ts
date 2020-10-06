@@ -31,5 +31,7 @@ export class ExpirationCompleteListener extends Listener<
       },
       version: order.version,
     })
+
+    msg.ack()
   }
 }

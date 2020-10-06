@@ -5,8 +5,8 @@ import {
   OrderStatus,
   Subjects,
 } from '@et-ticketing/common'
-import { queueGroupName } from '../queue-group-name'
-import { Order } from '../../../models/order'
+import { queueGroupName } from './queue-group-name'
+import { Order } from '../../models/order'
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
   readonly subject = Subjects.OrderCancelled

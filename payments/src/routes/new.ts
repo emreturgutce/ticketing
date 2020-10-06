@@ -36,7 +36,7 @@ router.post(
       source: token,
     })
 
-    res.json({ success: true })
+    res.status(201).json({ success: true })
   }
 )
 

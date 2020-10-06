@@ -7,7 +7,7 @@ let mongo: MongoMemoryServer
 declare global {
   namespace NodeJS {
     interface Global {
-      signup(): string[]
+      signup(id?: string): string[]
     }
   }
 }
@@ -41,9 +41,9 @@ afterAll(async () => {
   await mongoose.connection.close()
 })
 
-global.signup = () => {
+global.signup = (id?: string) => {
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: id || new mongoose.Types.ObjectId().toHexString(),
     email: 'test@test.com',
   }
 

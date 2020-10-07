@@ -9,6 +9,7 @@ import {
 import { Request, Response, Router } from 'express'
 import { body } from 'express-validator'
 import { Order } from '../models/order'
+import { Payment } from '../models/payment'
 import { stripe } from '../stripe'
 
 const router = Router()
@@ -30,11 +31,18 @@ router.post(
     if (order.status === OrderStatus.Cancelled)
       throw new BadRequestError('Order is already cancelled')
 
-    await stripe.charges.create({
+    const charge = await stripe.charges.create({
       currency: 'usd',
       amount: order.price * 100,
       source: token,
     })
+
+    const payment = Payment.build({
+      orderId,
+      stripeId: charge.id,
+    })
+
+    await payment.save()
 
     res.status(201).json({ success: true })
   }

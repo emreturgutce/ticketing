@@ -52,7 +52,7 @@ router.post(
       stripeId: payment.stripeId,
     })
 
-    res.status(201).json({ success: true })
+    res.status(201).json({ id: payment.id })
   }
 )
 

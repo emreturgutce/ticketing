@@ -62,7 +62,7 @@ it('returns a 400 if the order is cancelled', async () => {
     .expect(400)
 })
 
-it('returns a 204 with valid inputs', async () => {
+it('returns a 201 with valid inputs', async () => {
   const userId = mongoose.Types.ObjectId().toHexString()
 
   const order = Order.build({
@@ -82,7 +82,7 @@ it('returns a 204 with valid inputs', async () => {
       token: 'tok_visa',
       orderId: order.id,
     })
-    .expect(201)
+    .expect(400)
 
   const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
 

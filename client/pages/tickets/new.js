@@ -1,8 +1,24 @@
 import { useState } from 'react'
+import useRequest from '../../hooks/use-request'
 
 const NewTicket = () => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
+  const { doRequest, errors } = useRequest({
+    url: '/api/tickets',
+    method: 'post',
+    body: {
+      title,
+      price,
+    },
+    onSuccess: ticket => console.log(ticket),
+  })
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    await doRequest()
+  }
 
   const handleBlur = () => {
     const value = parseFloat(price)
@@ -15,7 +31,7 @@ const NewTicket = () => {
   return (
     <div>
       <h1>Create a Ticket</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='form-group'>
           <label>Title</label>
           <input
@@ -33,6 +49,7 @@ const NewTicket = () => {
             onBlur={handleBlur}
           />
         </div>
+        {errors}
         <button type='submit' className='btn btn-primary'>
           Submit
         </button>

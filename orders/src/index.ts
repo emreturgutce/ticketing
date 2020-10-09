@@ -7,7 +7,7 @@ import { ExpirationCompleteListener } from './events/listeners/expiration-comple
 import { PaymentCreatedListener } from './events/listeners/payment-created-listener'
 
 async function main() {
-  console.log('STARTING...')
+  console.log('STARTING..')
   if (!process.env.NATS_CLUSTER_ID)
     throw new Error('NATS_CLUSTER_ID must be provided')
   if (!process.env.NATS_CLIENT_ID)

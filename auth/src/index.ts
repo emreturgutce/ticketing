@@ -1,6 +1,8 @@
 import { app } from './app'
 import mongoose from 'mongoose'
 
+console.log('STARTING')
+
 mongoose
   .connect(process.env.MONGO_URI!, {
     useNewUrlParser: true,

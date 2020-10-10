@@ -1,0 +1,20 @@
+name: deploy-manifests
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      -  infra/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+    # - uses: digitalocean/action-doctl@v2                        # install doctl tool
+    #   with:
+    #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}         # using do access token
+    # - run: doctl kubernetes cluster kubeconfig save ticketing   # changing cluster to do
+    # - run: kubectl rollout restart deployment auth-depl         # restarting auth-depl
+      - run: kubectl apply -f infra/k8s

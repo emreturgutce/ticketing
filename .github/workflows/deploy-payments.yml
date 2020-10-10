@@ -1,0 +1,25 @@
+name: deploy-payments
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      -  payments/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd payments && docker build -t emreturgutce/payments .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push emreturgutce/payments
+    # - uses: digitalocean/action-doctl@v2                        # install doctl tool
+    #   with:
+    #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}         # using do access token
+    # - run: doctl kubernetes cluster kubeconfig save ticketing   # changing cluster to do
+    # - run: kubectl rollout restart deployment payments-depl         # restarting payments-depl

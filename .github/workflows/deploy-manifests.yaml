@@ -17,4 +17,4 @@ jobs:
     #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}         # using do access token
     # - run: doctl kubernetes cluster kubeconfig save ticketing   # changing cluster to do
     # - run: kubectl rollout restart deployment auth-depl         # restarting auth-depl
-      - run: kubectl apply -f infra/k8s
+      - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-dev
